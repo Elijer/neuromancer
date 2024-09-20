@@ -1,7 +1,12 @@
-import Image from "next/image";
+// pages/index.tsx
+'use client'
+
+import Scene from '../components/Scene'
 
 export default function Home() {
   return (
-    <p>hey</p>
-  );
+    <div style={{ width: '100vw', height: '100vh' }}>
+      <Scene />
+    </div>
+  )
 }
