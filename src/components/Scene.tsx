@@ -13,12 +13,10 @@ import { Bloom, DepthOfField, EffectComposer, Noise, Vignette, Pixelation} from 
 
 const COMMON_POSITION: HeadProps["position"] = [0, 0, 0]
 
-const BLOOM_SCENE = 1;
-const bloomLayer = new THREE.Layers();
-bloomLayer.set( BLOOM_SCENE );
-
 let counter = 1
 
+
+// ---------- TEXTY ----------
 interface TextyProps {
   start: THREE.Vector3
   end: THREE.Vector3
@@ -27,7 +25,12 @@ interface TextyProps {
 }
 
 const Texty = ({ end, text, size=.2}: TextyProps) => {
-
+  const textRef = useRef<THREE.Mesh>()
+  useEffect(() => {
+    if (textRef.current) {
+      textRef.current.layers.set(1) // Set text to layer 1
+    }
+  }, [])
   // Calculate a perpendicular vector in the XY plane
   const perpendicular = new THREE.Vector3(0, 0, 0).normalize();
 
@@ -55,6 +58,8 @@ const Texty = ({ end, text, size=.2}: TextyProps) => {
   );
 };
 
+// ---------- POINTY ----------
+
 interface PointyProps {
   surfacePoint: THREE.Vector3
   distance: number
@@ -62,22 +67,30 @@ interface PointyProps {
 }
 
 const Pointy = ({ surfacePoint, distance = 0.5, text}: PointyProps) => {
+    let transp = .2
     const direction = surfacePoint.clone().sub(new THREE.Vector3(0, 0, 0)).normalize();
     let endPoint = surfacePoint.clone().add(direction.multiplyScalar(distance));
     return (
       <>
-        <Line points={[surfacePoint, endPoint]} />
-        <Sphere position={[surfacePoint.x, surfacePoint.y, surfacePoint.z]} />
+        <Line
+        points={[surfacePoint, endPoint]}
+        color="white"
+        lineWidth={.7}
+        transparent
+        opacity={transp}
+        />
+        <Spherey position={[surfacePoint.x, surfacePoint.y, surfacePoint.z]} transparency={transp}/>
         <Texty start={surfacePoint} end={endPoint} text={text} size={.02}/>
       </>
     )
 }
 
-const Sphere = ({ position = [0, 0, 0] }: { position?: [number, number, number] }) => {
+const Spherey = ({ position = [0, 0, 0], transparency}: { position?: [number, number, number], transparency: number}) => {
   return (
     <mesh position = {position}>
-      <sphereGeometry args={[0.004, 16, 16]} />
-      <meshStandardMaterial opacity={.01}/>
+      <sphereGeometry args={[0.002, 16, 16]} />
+      <meshBasicMaterial transparent opacity={0.5} color="white" />
+      {/* <meshStandardMaterial/> */}
     </mesh>
   )
 }
@@ -153,7 +166,6 @@ function Head({
 
   useEffect(() => {
     window.addEventListener('click', handleClick);
-    // window.addEventListener('mousemove', handleClick);
     return () => {
       window.removeEventListener('click', handleClick);
     };
