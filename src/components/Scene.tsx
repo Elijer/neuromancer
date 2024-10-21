@@ -4,65 +4,20 @@
 // https://claude.site/artifacts/fad27bbd-d337-4fb7-8518-66229ca356c0
 
 import React, { useRef, useEffect } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { OrbitControls, Html, shaderMaterial, Line, Text} from '@react-three/drei'
+import { Canvas, useLoader, useThree } from '@react-three/fiber'
+import { OrbitControls, Line, Text} from '@react-three/drei'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 import { Bloom, DepthOfField, EffectComposer, Noise, Vignette, Pixelation} from '@react-three/postprocessing'
-// import { PixelShader } from './PixelShader' // Import your pixelation shader
 
-function rs(length = 6) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      result += characters[randomIndex];
-  }
-  return result;
-}
+const COMMON_POSITION: HeadProps["position"] = [0, 0, 0]
 
 const BLOOM_SCENE = 1;
 const bloomLayer = new THREE.Layers();
 bloomLayer.set( BLOOM_SCENE );
 
 let counter = 1
-
-interface LineToHeadProps {
-  headRef: React.RefObject<THREE.Object3D>;
-  clickedPoint: THREE.Vector3 | null;
-  distance: number;
-}
-
-const LineToHead: React.FC<LineToHeadProps> = ({ headRef, clickedPoint, distance }) => {
-  const lineRef = useRef<THREE.Line>(null);
-
-  useFrame(() => {
-    if (lineRef.current && headRef.current && clickedPoint) {
-      const vertexPosition = clickedPoint.clone();
-      vertexPosition.applyMatrix4(headRef.current.matrixWorld);
-      const direction = vertexPosition.clone().normalize(); // Normalize the direction
-      const fixedPoint = vertexPosition.clone().add(direction.multiplyScalar(distance)); // Calculate the fixed point
-      lineRef.current.geometry.setFromPoints([vertexPosition, fixedPoint]); // Use the fixed point
-    }
-  });
-
-  return (
-    <line ref={lineRef}>
-      <bufferGeometry />
-      <lineBasicMaterial color="white" />
-    </line>
-  );
-};
-
-interface HeadProps {
-  headRef: React.RefObject<THREE.Object3D>;
-  position?: [number, number, number];
-  rotationSpeed?: number,
-  rotation?: number,
-}
-
-const COMMON_POSITION: HeadProps["position"] = [0, 0, 0]
 
 interface TextyProps {
   start: THREE.Vector3
@@ -71,9 +26,7 @@ interface TextyProps {
   size: number
 }
 
-const Texty = ({ start, end, text, size=.2}: TextyProps) => {
-  // Calculate the direction vector of the line
-  const direction = new THREE.Vector3().subVectors(end, start).normalize();
+const Texty = ({ end, text, size=.2}: TextyProps) => {
 
   // Calculate a perpendicular vector in the XY plane
   const perpendicular = new THREE.Vector3(0, 0, 0).normalize();
@@ -108,21 +61,12 @@ interface PointyProps {
   text: string
 }
 
-
 const Pointy = ({ surfacePoint, distance = 0.5, text}: PointyProps) => {
     const direction = surfacePoint.clone().sub(new THREE.Vector3(0, 0, 0)).normalize();
     let endPoint = surfacePoint.clone().add(direction.multiplyScalar(distance));
-    // headRef.current.add(createSphere(surfacePoint)); // Add sphere to the head reference
-    // headRef.current.add(createLine(surfacePoint, endPoint));
     return (
       <>
-        <Line points={[surfacePoint, endPoint]}>
-          <bufferGeometry />
-          <lineBasicMaterial color="white" />
-        </Line>
-        {/* <Text color="white" anchorX = {-endPoint.x} anchorY = {-endPoint.y} fontSize={.1}>
-          hello world!
-        </Text> */}
+        <Line points={[surfacePoint, endPoint]} />
         <Sphere position={[surfacePoint.x, surfacePoint.y, surfacePoint.z]} />
         <Texty start={surfacePoint} end={endPoint} text={text} size={.02}/>
       </>
@@ -133,9 +77,16 @@ const Sphere = ({ position = [0, 0, 0] }: { position?: [number, number, number] 
   return (
     <mesh position = {position}>
       <sphereGeometry args={[0.004, 16, 16]} />
-      {/* <meshStandardMaterial color="#FFFFFF" /> */}
+      <meshStandardMaterial opacity={.01}/>
     </mesh>
   )
+}
+
+interface HeadProps {
+  headRef: React.RefObject<THREE.Object3D>;
+  position?: [number, number, number];
+  rotationSpeed?: number,
+  rotation?: number,
 }
 
 function Head({
@@ -171,7 +122,7 @@ function Head({
 
           // Calculate direction from the center (0, 0, 0) to the clicked point
           const direction = point.clone().sub(new THREE.Vector3(0, 0, 0)).normalize();
-          const distance = .7; // Length of the line
+          const distance = .5; // Length of the line
           const endPoint = point.clone().add(direction.multiplyScalar(distance));
 
           headRef.current.add(createSphere(point)); // Add sphere to the head reference
@@ -182,7 +133,6 @@ function Head({
       }
     }
   }
-
 
   // Some utility functions
   const createLine = (startPoint: THREE.Vector3, endPoint: THREE.Vector3) => {
@@ -209,19 +159,6 @@ function Head({
     };
   }, []);
 
-  useFrame((state, delta) => {
-    if (headRef.current) {
-      // headRef.current.rotation.y -= delta * rotationSpeed;
-    }
-  });
-
-  useEffect(() => {
-    // if (headRef.current) {
-    //   let startPoint = new THREE.Vector3(0.16430219587027595, 0.03152010742767164, 0.025099439953131242)
-    //   createPoint(startPoint, .325)
-    // }
-  }, [gltf]);
-
   return (
     <>
       <primitive object={gltf.scene} ref={headRef} position={position} />
@@ -247,7 +184,7 @@ const pointyData: [string, THREE.Vector3][] = [
 
 ]
 
-const MultiPointy = ({ distance = 0.3 }) => {
+const MultiPointy = ({ distance = 0.2 }) => {
   return (
     <>
       {pointyData.map(([text, position], index) => (
@@ -264,8 +201,6 @@ const MultiPointy = ({ distance = 0.3 }) => {
 
 export default function HeadScene() {
   const headRef = useRef<THREE.Object3D>(null);
-  const ghostRef = useRef<THREE.Object3D>(null)
-  const fixedPoint: [number, number, number] = [.3, .5, 0];
 
   return (
     <Canvas
@@ -278,7 +213,7 @@ export default function HeadScene() {
       <Head headRef={headRef} rotationSpeed={0} rotation={1} position={COMMON_POSITION} />
       <OrbitControls />
       <EffectComposer>
-        <Pixelation granularity = {4}/>
+        <Pixelation granularity = {1}/>
         <Bloom luminanceThreshold={.6} luminanceSmoothing={0.8} height={250} />
         <DepthOfField focusDistance={2} focalLength={0.006} bokehScale={.1} height={100} />
         <Noise opacity={0.06} />
