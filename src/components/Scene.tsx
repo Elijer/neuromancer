@@ -85,6 +85,8 @@ const Pointy = ({ surfacePoint, distance = 0.5, text}: PointyProps) => {
     )
 }
 
+
+// ---------- SPHEREY ----------
 const Spherey = ({ position = [0, 0, 0], transparency}: { position?: [number, number, number], transparency: number}) => {
   return (
     <mesh position = {position}>
@@ -222,7 +224,7 @@ export default function HeadScene() {
       <color attach="background" args={['#000000']} />
       <ambientLight intensity={1.6} />
       <pointLight position={[10, 10, 10]} />
-      <Head headRef={headRef} rotationSpeed={0} rotation={1} position={COMMON_POSITION} />
+      <Head headRef={headRef} rotationSpeed={.02} rotation={1} position={COMMON_POSITION} />
       <OrbitControls />
       <EffectComposer>
         <Pixelation granularity = {1}/>
