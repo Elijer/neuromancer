@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars prefer-const @typescript-eslint/no-unused-vars */
 'use client'
 
 // Here is a claude explanation on how to split layers into diff post-processing treatments:
