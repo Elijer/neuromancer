@@ -1,11 +1,5 @@
 'use client'
 
-let divEl = document.createElement("div")
-divEl.innerHTML = "hi"
-divEl.style.color = "white"
-divEl.style.fontSize = "50px"
-document.getElementById("text1")?.append(divEl)
-
 // Here is a claude explanation on how to split layers into diff post-processing treatments:
 // https://claude.site/artifacts/fad27bbd-d337-4fb7-8518-66229ca356c0
 
