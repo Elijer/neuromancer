@@ -200,7 +200,7 @@ function Head({
     return () => {
       window.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, [handleClick]);
 
   return (
     <>
