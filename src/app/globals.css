@@ -9,26 +9,18 @@ html, body, #__next {
   padding: 0;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.text1 {
+  position: absolute; /* No quotes needed */
+  top: 20px; /* No quotes needed */
+  left: 20px; /* No quotes needed */
+  z-index: 10; /* No quotes needed */
+  color: rgba(255, 255, 255, .4); /* No quotes needed */
+  background: rgba(0, 0, 0, 0); /* No quotes needed */
+  padding: 10px; /* No quotes needed */
+  -webkit-user-select: none; /* Added for Safari support */
+  user-select: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.instruction-item:hover {
+    color: rgba(255, 255, 255, .5);
 }
