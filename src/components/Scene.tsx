@@ -96,10 +96,10 @@ interface PointyProps {
 }
 
 const Pointy = ({ surfacePoint, distance = 0.5, text, link}: PointyProps) => {
-    let transp = .2
+    const transp = .2
     const pointyRef = useRef()
     const direction = surfacePoint.clone().sub(new THREE.Vector3(0, 0, 0)).normalize();
-    let endPoint = surfacePoint.clone().add(direction.multiplyScalar(distance));
+    const endPoint = surfacePoint.clone().add(direction.multiplyScalar(distance));
     return (
       <>
         <Line
@@ -118,7 +118,7 @@ const Pointy = ({ surfacePoint, distance = 0.5, text, link}: PointyProps) => {
 
 
 // ---------- SPHEREY ----------
-const Spherey = ({ position = [0, 0, 0], transparency}: { position?: [number, number, number], transparency: number}) => {
+const Spherey = ({ position = [0, 0, 0]}: { position?: [number, number, number]}) => {
   let sphereyRef = useRef<THREE.Mesh>(null)
   return (
     <mesh position = {position} ref={sphereyRef}>
