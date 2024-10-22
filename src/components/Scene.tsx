@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars prefer-const */
 'use client'
 
 // Here is a claude explanation on how to split layers into diff post-processing treatments:
@@ -110,7 +111,7 @@ const Pointy = ({ surfacePoint, distance = 0.5, text, link}: PointyProps) => {
         opacity={transp}
         ref = {pointyRef}
         />
-        <Spherey position={[surfacePoint.x, surfacePoint.y, surfacePoint.z]} transparency={transp}/>
+        <Spherey position={[surfacePoint.x, surfacePoint.y, surfacePoint.z]}/>
         <Texty start={surfacePoint} end={endPoint} text={text} link={link} size={.02}/>
       </>
     )
@@ -119,7 +120,7 @@ const Pointy = ({ surfacePoint, distance = 0.5, text, link}: PointyProps) => {
 
 // ---------- SPHEREY ----------
 const Spherey = ({ position = [0, 0, 0]}: { position?: [number, number, number]}) => {
-  let sphereyRef = useRef<THREE.Mesh>(null)
+  const sphereyRef = useRef<THREE.Mesh>(null)
   return (
     <mesh position = {position} ref={sphereyRef}>
       <sphereGeometry args={[0.002, 16, 16]} />
