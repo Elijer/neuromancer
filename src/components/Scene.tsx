@@ -247,14 +247,15 @@ function Head({
 
 const pointyData: [string, string, THREE.Vector3][] = [
   // ["Earlobe", "https://soundcloud.com/eliahuu", new THREE.Vector3(0.16430219587027595, 0.03152010742767164, 0.025099439953131242)],
-  // ["Temple", new THREE.Vector3(0.153400328099506, 0.1542746766889238, 0.1679021056599207)],
+  ["Creative Juices 🧃", "https://app.milanote.com/1R4bQg1yx7aY2T/portfolio?p=waxm3Jjmsfr", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)],
   ["Visual 👀", "https://www.youtube.com/watch?v=fgHN1FExtks", new THREE.Vector3(0.08787825050002396, 0.12246210235241728, 0.20802164659473688)],
   ["Frontal Noggins 📝", "https://elijer.github.io/garden/", new THREE.Vector3(0.16103867707038733, 0.27772983755964753, 0.13477927477915885)],
   ["Occipital Lobe 👾", "https://jungle.rcdis.co/", new THREE.Vector3(0.1350212943129172, 0.049238632025043305, -0.22230318318486086)],
   ["Temporal Lobe 🎶", "https://soundcloud.com/eliahuu", new THREE.Vector3(0.16184143763880432, 0.07877416649431757, -0.005378855068934096)],
   ["Words 📌", "https://docs.google.com/document/d/1FXKPwPN55yYVhz2CUO49jBsTiVZgWb4LclZDcI-8ono/edit?usp=sharing", new THREE.Vector3(0.03909280037606001, -0.028731984034480407, 0.2522260502858189)],
-  ["Dreams 😎", "https://thelegend.web.app/", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)],
-  ["Inner Ear 🌊", "https://sedson.itch.io/form-of-danger", new THREE.Vector3(0.14433940790038902, -0.004384316486964579, 0.013327227922421914)]
+  // ["Dreams 😎", "https://thelegend.web.app/", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)],
+  ["Inner Ear 🌊", "https://sedson.itch.io/form-of-danger", new THREE.Vector3(0.14433940790038902, -0.004384316486964579, 0.013327227922421914)],
+  ["Cerebellum 🧗🏼‍♂️", "https://www.youtube.com/watch?v=hmXGn7jZNiU", new THREE.Vector3(0.11771430375222991, -0.08123222789600626, -0.07324406478480261)]
 ]
 
 const MultiPointy = ({ distance = 0.2 }) => {
