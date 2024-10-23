@@ -134,6 +134,22 @@ interface HeadProps {
   position?: [number, number, number];
 }
 
+const createSphere = (point:THREE.Vector3, color: string) => {
+  const sphereGeometry = new THREE.SphereGeometry(0.004, 16, 16); // Small sphere
+  const sphereMaterial = new THREE.MeshBasicMaterial({ color: color }); // Red color
+  const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+  sphere.position.copy(point);
+  return sphere
+}
+
+// Some utility functions
+const createLine = (startPoint: THREE.Vector3, endPoint: THREE.Vector3) => {
+  const material = new THREE.LineBasicMaterial({ color: 0xffffff });
+  const geometry = new THREE.BufferGeometry().setFromPoints([startPoint, endPoint]);
+  const line = new THREE.Line(geometry, material);
+  return line
+}
+
 function Head({
   position = [0, 0, 0],
   headRef
@@ -168,8 +184,8 @@ function Head({
           const distance = .5; // Length of the line
           const endPoint = point.clone().add(direction.multiplyScalar(distance));
 
-          // headRef.current.add(createSphere(point)); // Add sphere to the head reference
-          // headRef.current.add(createLine(point, endPoint));
+          headRef.current.add(createSphere(point, "white")); // Add sphere to the head reference
+          headRef.current.add(createLine(point, endPoint));
           console.log(`// # Point ${counter++}`)
           console.log(`["Earlobe", new THREE.Vector3(${point.x}, ${point.y}, ${point.z})]`)
         }
@@ -177,22 +193,34 @@ function Head({
     }
   }
 
-  // Some utility functions
-  const createLine = (startPoint: THREE.Vector3, endPoint: THREE.Vector3) => {
-    const material = new THREE.LineBasicMaterial({ color: 0xffffff });
-    const geometry = new THREE.BufferGeometry().setFromPoints([startPoint, endPoint]);
-    console.log(startPoint, endPoint)
-    const line = new THREE.Line(geometry, material);
-    return line
-  }
+  // Tracing markers
+  // const handleMouseMove = useCallback((event: MouseEvent) => {
+  //   // Update mouse coordinates
+  //   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  //   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-  const createSphere = (point:THREE.Vector3) => {
-    const sphereGeometry = new THREE.SphereGeometry(0.004, 16, 16); // Small sphere
-    const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff }); // Red color
-    const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    sphere.position.copy(point);
-    return sphere
-  }
+  //   // Update raycaster with new mouse position
+  //   raycaster.setFromCamera(mouse, camera);
+
+  //   if (headRef.current) {
+  //     const headMesh = headRef.current.getObjectByProperty('type', 'Mesh');
+  //     if (headMesh) {
+  //       const intersects = raycaster.intersectObject(headMesh, false);
+  //       if (intersects.length > 0) {
+  //         const point = intersects[0].point;
+  //         const sphere = createSphere(point, "white");
+  //         headRef.current.add(sphere);
+  //       }
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   window.addEventListener('mousemove', handleMouseMove);
+  //   return () => {
+  //     window.removeEventListener('mousemove', handleMouseMove);
+  //   };
+  // }, [handleMouseMove]);
 
   useEffect(() => {
     window.addEventListener('click', handleClick);
@@ -216,39 +244,16 @@ function Head({
   )
 }
 
-interface RotatingSceneProps {
-  rotation: number
-  rotationSpeed: number
-}
-
-const RotatingScene: React.FC<{ children: React.ReactNode }> = ({ children }, {
-  rotation = 0,
-  rotationSpeed = -.016
-}) => {
-  const groupRef = useRef<THREE.Group>(null)
-
-  if (groupRef.current) {
-    groupRef.current.rotation.y = rotation
-  }
-
-  useFrame((state, delta) => {
-    if (groupRef.current){
-      groupRef.current.rotation.y += delta * rotationSpeed
-    }
-  })
-
-  return <group ref={groupRef}>{children}</group>
-}
-
 const pointyData: [string, string, THREE.Vector3][] = [
   // ["Earlobe", "https://soundcloud.com/eliahuu", new THREE.Vector3(0.16430219587027595, 0.03152010742767164, 0.025099439953131242)],
   // ["Temple", new THREE.Vector3(0.153400328099506, 0.1542746766889238, 0.1679021056599207)],
-  ["Visual", "https://www.youtube.com/watch?v=fgHN1FExtks", new THREE.Vector3(0.08787825050002396, 0.12246210235241728, 0.20802164659473688)],
-  ["Frontal Noggins (Thoughts)", "https://elijer.github.io/garden/", new THREE.Vector3(0.16103867707038733, 0.27772983755964753, 0.13477927477915885)],
-  ["Occipital Lobe", "https://jungle.rcdis.co/", new THREE.Vector3(0.1350212943129172, 0.049238632025043305, -0.22230318318486086)],
-  ["Temporal Lobe", "https://soundcloud.com/eliahuu", new THREE.Vector3(0.16184143763880432, 0.07877416649431757, -0.005378855068934096)],
-  ["Words", "https://docs.google.com/document/d/1FXKPwPN55yYVhz2CUO49jBsTiVZgWb4LclZDcI-8ono/edit?usp=sharing", new THREE.Vector3(0.03909280037606001, -0.028731984034480407, 0.2522260502858189)],
-  ["Dreams", "https://thelegend.web.app/", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)]
+  ["Visual 👀", "https://www.youtube.com/watch?v=fgHN1FExtks", new THREE.Vector3(0.08787825050002396, 0.12246210235241728, 0.20802164659473688)],
+  ["Frontal Noggins 📝", "https://elijer.github.io/garden/", new THREE.Vector3(0.16103867707038733, 0.27772983755964753, 0.13477927477915885)],
+  ["Occipital Lobe 👾", "https://jungle.rcdis.co/", new THREE.Vector3(0.1350212943129172, 0.049238632025043305, -0.22230318318486086)],
+  ["Temporal Lobe 🎶", "https://soundcloud.com/eliahuu", new THREE.Vector3(0.16184143763880432, 0.07877416649431757, -0.005378855068934096)],
+  ["Words 📌", "https://docs.google.com/document/d/1FXKPwPN55yYVhz2CUO49jBsTiVZgWb4LclZDcI-8ono/edit?usp=sharing", new THREE.Vector3(0.03909280037606001, -0.028731984034480407, 0.2522260502858189)],
+  ["Dreams 😎", "https://thelegend.web.app/", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)],
+  ["Inner Ear 🌊", "https://sedson.itch.io/form-of-danger", new THREE.Vector3(0.14433940790038902, -0.004384316486964579, 0.013327227922421914)]
 ]
 
 const MultiPointy = ({ distance = 0.2 }) => {
@@ -278,16 +283,14 @@ export default function HeadScene() {
       <color attach="background" args={['#000000']} />
       <ambientLight intensity={1.6} />
       <pointLight position={[10, 10, 10]} />
-      <RotatingScene>
         <Head headRef={headRef} position={COMMON_POSITION} />
         <MultiPointy />
-      </RotatingScene>
-      <OrbitControls />
+      <OrbitControls autoRotate={true} autoRotateSpeed={-.2}/>
       <EffectComposer>
-        <Pixelation granularity = {0}/>
+        <Pixelation granularity = {6}/>
         <Bloom luminanceThreshold={.6} luminanceSmoothing={0.8} height={250} />
         <DepthOfField focusDistance={2} focalLength={0.006} bokehScale={.1} height={100} />
-        <Noise opacity={0.06} />
+        {/* <Noise opacity={0.06} /> */}
         <Vignette eskil={false} offset={0.1} darkness={1.1} />
       </EffectComposer>
     </Canvas>
