@@ -287,7 +287,7 @@ export default function HeadScene() {
         <MultiPointy />
       <OrbitControls autoRotate={true} autoRotateSpeed={-.2}/>
       <EffectComposer>
-        <Pixelation granularity = {6}/>
+        <Pixelation granularity = {0}/>
         <Bloom luminanceThreshold={.6} luminanceSmoothing={0.8} height={250} />
         <DepthOfField focusDistance={2} focalLength={0.006} bokehScale={.1} height={100} />
         {/* <Noise opacity={0.06} /> */}
