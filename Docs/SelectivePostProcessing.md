@@ -14,3 +14,7 @@ https://github.com/patriciogonzalezvivo/glsl-pipeline
 I dunno if it is relevant to me but it has fantastic explanations with animations in the readme. I'm very impressed with the Readme's in some of these repos. Here's another example of a fantastic readme:
 
 https://github.com/pmndrs/gltfjsx
+
+THIS is hopefully what I am actually looking for:
+https://jsfiddle.net/marquizzo/nfaLovpk/
+Seems to use render passes. Can't totally figure out how to use those in Fiber, but will figure it out.

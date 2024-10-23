@@ -255,7 +255,8 @@ const pointyData: [string, string, THREE.Vector3][] = [
   ["Words 📌", "https://docs.google.com/document/d/1FXKPwPN55yYVhz2CUO49jBsTiVZgWb4LclZDcI-8ono/edit?usp=sharing", new THREE.Vector3(0.03909280037606001, -0.028731984034480407, 0.2522260502858189)],
   // ["Dreams 😎", "https://thelegend.web.app/", new THREE.Vector3(0.06721929875667991, 0.23346401426491137, 0.23841362530782648)],
   ["Inner Ear 🌊", "https://sedson.itch.io/form-of-danger", new THREE.Vector3(0.14433940790038902, -0.004384316486964579, 0.013327227922421914)],
-  ["Cerebellum 🧗🏼‍♂️", "https://www.youtube.com/watch?v=hmXGn7jZNiU", new THREE.Vector3(0.11771430375222991, -0.08123222789600626, -0.07324406478480261)]
+  ["Cerebellum 🧗🏼‍♂️", "https://www.youtube.com/watch?v=hmXGn7jZNiU", new THREE.Vector3(0.11771430375222991, -0.08123222789600626, -0.07324406478480261)],
+  ["Amygdala 📒", "https://peerbasedreview.com/", new THREE.Vector3(0.16206442873422078, 0.023160804119318756, -0.02759753867831566)]
 ]
 
 const MultiPointy = ({ distance = 0.2 }) => {
