@@ -178,14 +178,15 @@ function Head({
 
           // Remove all existing lines
           headRef.current.children = headRef.current.children.filter(child => !(child instanceof THREE.Line));
+          // headRef.current.children = headRef.current.children.filter(child => !(child instanceof THREE.SphereGeometry));
 
           // Calculate direction from the center (0, 0, 0) to the clicked point
           const direction = point.clone().sub(new THREE.Vector3(0, 0, 0)).normalize();
           const distance = .5; // Length of the line
           const endPoint = point.clone().add(direction.multiplyScalar(distance));
 
-          headRef.current.add(createSphere(point, "white")); // Add sphere to the head reference
-          headRef.current.add(createLine(point, endPoint));
+          // headRef.current.add(createSphere(point, "white")); // Add sphere to the head reference
+          // headRef.current.add(createLine(point, endPoint));
           console.log(`// # Point ${counter++}`)
           console.log(`["Earlobe", new THREE.Vector3(${point.x}, ${point.y}, ${point.z})]`)
         }
