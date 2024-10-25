@@ -293,7 +293,7 @@ export default function HeadScene() {
         <Pixelation granularity = {0}/>
         <Bloom luminanceThreshold={.6} luminanceSmoothing={0.8} height={250} />
         <DepthOfField focusDistance={2} focalLength={0.006} bokehScale={.1} height={100} />
-        {/* <Noise opacity={0.06} /> */}
+        <Noise opacity={0.06} />
         <Vignette eskil={false} offset={0.1} darkness={1.1} />
       </EffectComposer>
     </Canvas>
